@@ -6,89 +6,127 @@
 /*   By: oishchen <oishchen@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:33:28 by oishchen          #+#    #+#             */
-/*   Updated: 2025/03/27 18:47:14 by oishchen         ###   ########.fr       */
+/*   Updated: 2025/03/28 00:35:02 by oishchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_append(char *buf, char *line, int *flg)
+int	gnl_strlen(char *str)
 {
-	char	*join;
-	int		bufL;
-	int		lineL;
-	int		i;
-	
+	int	i;
+
 	i = 0;
-	bufL = ft_strlen(buf);
-	lineL = ft_strlen(line);
-	join = (char *)malloc((bufL + lineL + 1) * sizeof(char));
-	while (line[i])
-	{
-		join[i] = line[i];
+	if (!str)
+		return 0;
+	while (str[i] && str[i] != '\n')
 		i++;
-	}
-	i = 0;
-	while (buf[i] != '\0')
-	{
-		if (buf[i] == '\n')
-		{
-			*flg = 1;
-			join[lineL + i] = buf[i];
-			return (join);
-		}
-		join[lineL + i] = buf[i];
-		i++;
-	}
+	return (i);
 }
 
+char	*gnl_strjoin(char *s1, char *s2)
+{
+	char	*joined;
+	int		s1L;
+	int		s2L;
+	int		i;
+
+	s1L = gnl_strlen(s1);
+	s2L = gnl_strlen(s2);
+	joined = (char *)malloc((s1L + s2L + 1) * sizeof(char));
+	if (!joined)
+		return (NULL);
+		i = 0;
+	while (s1[i])
+	{
+		joined[i] = s1[i];
+		i++;
+	}
+	while (s2[i - s1L])
+	{
+		joined[i] = s2[i - s1L];
+		i++;
+	}
+	joined[i] = '\0';
+	return (joined);
+}
+
+char	*gnl_strdup(char *buf, int *flg)
+{
+	char	*temp;
+	int		bufL;
+	int		i;
+
+	bufL = gnl_strlen(buf);
+	temp = (char *)malloc((bufL + 1) * sizeof(char));
+	if (!temp)
+		return (NULL);
+	i = 0;
+	while (i <= bufL)
+	{
+		temp[i] = buf[i];
+		i++;
+	}
+	if (buf[i] == '\n')
+	{
+		temp[i] = buf[i];
+		*flg = 1;
+		return (temp);
+	}
+	temp[i] = '\0';
+	return (temp);
+}
 /*
 	@brief		takes the buf and finds its buf[i] - i not taken string \n
 	@return		the boolean \n
 */
-int	nearest_free(char	**buf)
+char	*fetch_string(char *buf, int fd)
 {
-	int	i;
-	
-	i = 0;
-	while (buf[i] != (NULL))
+	int		bufL;
+	char	*temp;
+	char	*line;
+	int		nl_found;
+	int		bytes_read;
+
+	nl_found = 0;
+	while (!nl_found)
 	{
-		if (buf[i][0] != '\0')
-			return (i);
-		i++;
+		bytes_read = read(fd, buf, BUFFER_SIZE);
+		buf[bytes_read] = '\0';
+		temp = gnl_strdup(buf, &nl_found);
+		if (!temp)
+			return (NULL);
+		line = gnl_strjoin(temp, line);
 	}
-	return (-1);
+	return (line);
 }
+
+
 
 char *get_next_line(int fd)
 {
-	static char	buf[1024][BUFFER_SIZE + 1];
+	char	buf[1024][BUFFER_SIZE + 1];
 	char	*line;
-	int		bytes_read;
-	int		free_pos;
-	int		is_nl_found;
-
-	line = *buf;
-	if (fd < 0 || BUFFER_SIZE < 0 ||  read(fd, buf, 0) < 0)
-		return (NULL);
-	is_nl_found = 0;
-	while (!is_nl_found)
-	{
-		bytes_read = read(fd, buf, BUFFER_SIZE);
-		free_pos = nearest_free(buf);
-		if (free_pos == -1)
-			return ();
-		buf[free_pos][bytes_read] = '\0';
-		line = ft_append(buf[free_pos], line)
-		
-		if (!line)
-			return (NULL);
-
-		line = ft_append(buf, line, &is_nl_found) // the function should give us 
-	}
 	
+	if (BUFFER_SIZE >= 0 || fd < 0 || read(fd, buf[fd], 0))
+		return (NULL);
+	line = fetch_string(buf[fd], fd);
+	return (line);
 }
 
 /*
 	i need a  function that will store the read in the buf, then it will duplicate the buf into the temp. DUPLICATE will check whether there \n  or \0 sign was met if so , it tirgers a flag that will stop the duplication and the line will be returned.
 */
+int	main()
+{
+	int i = 0;
+	int fd = open("test.txt", O_RDWR);
+	char	*line = get_next_line(fd);
+	while (line[i])
+	{
+		write(1, &line[i], 1);
+		i++;
+	}
+	free(line);
+	return (0);
+}
