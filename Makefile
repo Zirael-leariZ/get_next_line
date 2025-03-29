@@ -6,13 +6,13 @@
 #    By: oishchen <oishchen@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/28 17:19:34 by oishchen          #+#    #+#              #
-#    Updated: 2025/03/28 17:27:48 by oishchen         ###   ########.fr        #
+#    Updated: 2025/03/29 10:58:06 by oishchen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = my_ft
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=1
+CFLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=10
 RM = rm -f
 SRCS = get_next_line.c get_next_line_utils.c
 OBJS = $(SRCS:.c=.o)
