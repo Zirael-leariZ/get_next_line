@@ -6,7 +6,7 @@
 /*   By: oishchen <oishchen@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:33:31 by oishchen          #+#    #+#             */
-/*   Updated: 2025/03/29 10:57:57 by oishchen         ###   ########.fr       */
+/*   Updated: 2025/03/31 17:29:16 by oishchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 char	*get_next_line(int fd);
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 42
 # endif
 
 #endif
