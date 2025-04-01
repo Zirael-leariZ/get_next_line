@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oishchen <oishchen@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/24 13:33:28 by oishchen          #+#    #+#             */
-/*   Updated: 2025/04/01 16:37:28 by oishchen         ###   ########.fr       */
+/*   Created: 2025/04/01 16:37:43 by oishchen          #+#    #+#             */
+/*   Updated: 2025/04/01 16:39:00 by oishchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_pure_line(char *container)
 {
